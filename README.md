@@ -6,9 +6,9 @@ A simple local application that converts lecture audio or PDF files into short s
 
 How to run?
 
-1.Start the backend:
-cd "d:\Mini-Projects\Lecture-AI\backend"
-C:\Python313\python.exe app.py
+1. Start the backend:
+   cd "d:\Mini-Projects\Lecture-AI\backend"
+   C:\Python313\python.exe app.py
 
 2.Start the frontend:
 cd "d:\Mini-Projects\Lecture-AI\frontend"
