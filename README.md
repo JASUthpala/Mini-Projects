@@ -10,11 +10,11 @@ How to run?
    cd "d:\Mini-Projects\Lecture-AI\backend"
    C:\Python313\python.exe app.py
 
-2.Start the frontend:
-cd "d:\Mini-Projects\Lecture-AI\frontend"
-C:\Python313\python.exe -m http.server 8000
+2. Start the frontend:
+   cd "d:\Mini-Projects\Lecture-AI\frontend"
+   C:\Python313\python.exe -m http.server 8000
 
-3.Open:
-http://127.0.0.1:8000
+3. Open:
+   http://127.0.0.1:8000
 
 ---
