@@ -1,20 +1,227 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lecture AI</title>
+    <style>
+      :root {
+        --bg: #05070d;
+        --panel: #0b1326;
+        --panel-2: #101d38;
+        --primary: #0d1f4d;
+        --primary-2: #163a8a;
+        --accent: #dfe9ff;
+        --text: #edf4ff;
+        --muted: #a7b7d8;
+        --success: #9fe6b3;
+        --warning: #ffd166;
+        --shadow: rgba(10, 20, 45, 0.45);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(180deg, var(--bg), #0b1220 100%);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 40px 20px 80px;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, var(--panel), var(--primary));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 22px;
+        padding: 48px 36px;
+        box-shadow: 0 18px 40px var(--shadow);
+      }
+
+      .hero h1 {
+        margin: 0 0 18px;
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        line-height: 1.1;
+      }
+
+      .hero p {
+        margin: 0;
+        max-width: 760px;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.7;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 26px;
+        margin-top: 32px;
+      }
+
+      .card {
+        background: rgba(13, 31, 77, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 18px;
+        padding: 24px 22px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+      }
+
+      .card h3 {
+        margin: 0 0 12px;
+        font-size: 1.3rem;
+      }
+
+      .card ul {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .upload-box {
+        margin-top: 36px;
+        background: linear-gradient(180deg, var(--panel), var(--panel-2));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 22px;
+        padding: 28px 24px;
+      }
+
+      .upload-box h2 {
+        margin-top: 0;
+        margin-bottom: 18px;
+        font-size: 2rem;
+      }
+
+      .upload-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+      }
+
+      input[type="file"] {
+        background: #0a1120;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        color: var(--text);
+        padding: 12px 14px;
+        width: min(100%, 420px);
+      }
+
+      button {
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--primary-2), #1c4dba);
+        color: white;
+        font-weight: bold;
+        padding: 12px 20px;
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+        box-shadow: 0 10px 22px rgba(24, 76, 190, 0.35);
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+      }
+
+      #status {
+        min-height: 28px;
+        margin-top: 16px;
+        color: var(--warning);
+        font-weight: 600;
+      }
+
+      .results {
+        margin-top: 30px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .result-box {
+        background: rgba(10, 17, 32, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 18px 20px;
+      }
+
+      .result-box h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+      }
+
+      .result-box p {
+        margin: 0;
+        color: var(--accent);
+        line-height: 1.8;
+      }
+    </style>
   </head>
   <body>
-    <h2>Upload Lecture (Audio or PDF)</h2>
+    <div class="container">
+      <section class="hero">
+        <h1>Lecture AI</h1>
+        <p>
+          Lecture AI is a smart local assistant that helps you turn lecture
+          materials into quick, useful study insights. It can process lecture
+          PDFs and audio recordings, extract the content, summarize the main
+          ideas, and generate practice questions to help you revise faster.
+        </p>
+      </section>
 
-    <input type="file" id="fileInput" accept=".pdf,.mp3,.wav" />
-    <button onclick="upload()">Upload</button>
-    <p id="status"></p>
+      <div class="grid">
+        <div class="card">
+          <h3>What it does</h3>
+          <ul>
+            <li>Reads PDF lecture notes automatically</li>
+            <li>Transcribes audio files with Whisper</li>
+            <li>Creates a short summary of the topic</li>
+            <li>Generates study questions for revision</li>
+          </ul>
+        </div>
 
-    <h3>Summary</h3>
-    <p id="summary"></p>
+        <div class="card">
+          <h3>How to use it</h3>
+          <ul>
+            <li>Choose a lecture file in PDF, MP3, or WAV format</li>
+            <li>Click the upload button</li>
+            <li>Wait while the local AI processes your lecture</li>
+            <li>Review the summary and generated questions</li>
+          </ul>
+        </div>
+      </div>
 
-    <h3>Questions</h3>
-    <p id="questions"></p>
+      <section class="upload-box">
+        <h2>Upload your lecture</h2>
+
+        <div class="upload-controls">
+          <input type="file" id="fileInput" accept=".pdf,.mp3,.wav" />
+          <button onclick="upload()">Upload Lecture</button>
+        </div>
+
+        <p id="status"></p>
+
+        <div class="results">
+          <div class="result-box">
+            <h3>Summary</h3>
+            <p id="summary">Your lecture summary will appear here.</p>
+          </div>
+
+          <div class="result-box">
+            <h3>Questions</h3>
+            <p id="questions">Generated questions will appear here.</p>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <script src="script.js"></script>
   </body>
