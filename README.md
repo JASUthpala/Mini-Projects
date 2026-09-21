@@ -134,7 +134,7 @@ Frontend displays summary and questions
 - If there is an issue with audio transcription, try a shorter or clearer audio file.
 - If the summary is too short or incomplete, use a longer lecture file with more content.
 
-### Run the project
+<!-- ### Run the project
 
 1. Start the backend:
    cd "d:\Mini-Projects\Lecture-AI\backend"
@@ -145,7 +145,7 @@ Frontend displays summary and questions
    C:\Python313\python.exe -m http.server 8000
 
 3. Open:
-   http://127.0.0.1:8000
+   http://127.0.0.1:8000 -->
 
 ### Screenshots
 
