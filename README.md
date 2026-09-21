@@ -2,6 +2,35 @@
 
 ## 1. Lecture-AI
 
+### Project status
+
+![Status](https://img.shields.io/badge/status-working%20locally-success)
+
+### Requirements
+
+- Python 3.10+
+- Flask
+- Torch
+- Transformers
+- OpenAI Whisper
+- PyMuPDF
+- A browser to open the frontend
+
+### Quick Start
+
+```bash
+# 1. Start backend
+cd "d:\Mini-Projects\Lecture-AI\backend"
+C:\Python313\python.exe app.py
+
+# 2. Start frontend in another terminal
+cd "d:\Mini-Projects\Lecture-AI\frontend"
+C:\Python313\python.exe -m http.server 8000
+
+# 3. Open in browser
+http://127.0.0.1:8000
+```
+
 ### Purpose
 
 Lecture-AI is a local study assistant that helps students turn lectures into useful revision materials. It accepts lecture PDFs and audio files, extracts the content, summarizes the main ideas, and generates study questions to make revision faster and easier.
