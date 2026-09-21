@@ -1,16 +1,38 @@
 async function upload() {
-    let file = document.getElementById("fileInput").files[0];
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0];
+    const summaryEl = document.getElementById("summary");
+    const questionsEl = document.getElementById("questions");
+    const statusEl = document.getElementById("status");
 
-    let formData = new FormData();
+    if (!file) {
+        statusEl.innerText = "Please choose a PDF, MP3, or WAV file first.";
+        return;
+    }
+
+    const formData = new FormData();
     formData.append("file", file);
 
-    let response = await fetch("http://127.0.0.1:5000/process", {
-        method: "POST",
-        body: formData
-    });
+    statusEl.innerText = "Processing lecture...";
+    summaryEl.innerText = "";
+    questionsEl.innerText = "";
 
-    let data = await response.json();
+    try {
+        const response = await fetch("http://127.0.0.1:5000/process", {
+            method: "POST",
+            body: formData
+        });
 
-    document.getElementById("summary").innerText = data.summary;
-    document.getElementById("questions").innerText = data.questions;
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Something went wrong while processing the lecture.");
+        }
+
+        summaryEl.innerText = data.summary;
+        questionsEl.innerText = data.questions;
+        statusEl.innerText = "Lecture processed successfully.";
+    } catch (error) {
+        statusEl.innerText = error.message;
+    }
 }

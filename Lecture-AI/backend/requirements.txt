@@ -1,0 +1,7 @@
+Flask>=3.0.0
+Flask-Cors>=4.0.0
+transformers>=4.41.0
+torch>=2.2.0
+openai-whisper>=20240930
+pymupdf>=1.24.0
+pytest>=8.0.0
