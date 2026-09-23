@@ -9,7 +9,7 @@ pygame.init()
 # -----------------------------------
 
 BLOCK_SIZE = 20
-SPEED = 10
+DEFAULT_SPEED = 10
 
 WIDTH = 640
 HEIGHT = 480
@@ -18,8 +18,11 @@ WHITE = (255,255,255)
 BLACK = (0,0,0)
 RED = (200,0,0)
 GREEN = (0,255,0)
+DARK_GREEN = (0,180,0)
+LIGHT_GREEN = (120,255,120)
 
 font = pygame.font.SysFont("arial",25)
+font_big = pygame.font.SysFont("arial",40, bold=True)
 
 # -----------------------------------
 # Directions
@@ -43,8 +46,46 @@ class SnakeGame:
         pygame.display.set_caption("Snake")
 
         self.clock = pygame.time.Clock()
+        self.speed = DEFAULT_SPEED
+        self.game_over = False
 
         self.reset()
+
+    def choose_speed(self):
+
+        speed_options = {
+            pygame.K_s: 8,
+            pygame.K_m: 12,
+            pygame.K_h: 18
+        }
+
+        while True:
+            self.display.fill(BLACK)
+
+            title = font_big.render("Select Snake Speed", True, WHITE)
+            self.display.blit(title, (150, 100))
+
+            slow = font.render("S - Slow", True, WHITE)
+            medium = font.render("M - Medium", True, WHITE)
+            high = font.render("H - High", True, WHITE)
+
+            self.display.blit(slow, (250, 180))
+            self.display.blit(medium, (235, 220))
+            self.display.blit(high, (245, 260))
+
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key in speed_options:
+                        self.speed = speed_options[event.key]
+                        return
+
+            self.clock.tick(10)
 
     def reset(self):
 
@@ -246,17 +287,67 @@ class SnakeGame:
 
         return False
 
-    def update_ui(self):
+    def draw_cartoon_snake(self):
 
-        self.display.fill(BLACK)
-
-        for pt in self.snake:
+        for index, pt in enumerate(self.snake):
+            body_color = LIGHT_GREEN if index == 0 else GREEN
+            outline_color = DARK_GREEN if index == 0 else DARK_GREEN
 
             pygame.draw.rect(
                 self.display,
-                GREEN,
-                pygame.Rect(pt[0],pt[1],BLOCK_SIZE,BLOCK_SIZE)
+                body_color,
+                pygame.Rect(pt[0], pt[1], BLOCK_SIZE, BLOCK_SIZE),
+                border_radius=8
             )
+            pygame.draw.rect(
+                self.display,
+                outline_color,
+                pygame.Rect(pt[0], pt[1], BLOCK_SIZE, BLOCK_SIZE),
+                width=2,
+                border_radius=8
+            )
+
+        head = self.snake[0]
+        head_rect = pygame.Rect(head[0], head[1], BLOCK_SIZE, BLOCK_SIZE)
+
+        pygame.draw.rect(
+            self.display,
+            LIGHT_GREEN,
+            head_rect,
+            border_radius=10
+        )
+
+        eye_offset = 5
+        eye_radius = 2
+
+        if self.direction == Direction.RIGHT:
+            eye_positions = [(head[0] + 12, head[1] + 6), (head[0] + 12, head[1] + 14)]
+        elif self.direction == Direction.LEFT:
+            eye_positions = [(head[0] + 2, head[1] + 6), (head[0] + 2, head[1] + 14)]
+        elif self.direction == Direction.UP:
+            eye_positions = [(head[0] + 6, head[1] + 2), (head[0] + 14, head[1] + 2)]
+        else:
+            eye_positions = [(head[0] + 6, head[1] + 16), (head[0] + 14, head[1] + 16)]
+
+        for x, y in eye_positions:
+            pygame.draw.circle(self.display, BLACK, (x, y), eye_radius)
+
+        mouth_x = head[0] + BLOCK_SIZE // 2
+        mouth_y = head[1] + BLOCK_SIZE // 2
+
+        if self.direction == Direction.RIGHT:
+            pygame.draw.line(self.display, BLACK, (mouth_x + 5, mouth_y), (mouth_x + 10, mouth_y), 2)
+        elif self.direction == Direction.LEFT:
+            pygame.draw.line(self.display, BLACK, (mouth_x - 5, mouth_y), (mouth_x - 10, mouth_y), 2)
+        elif self.direction == Direction.UP:
+            pygame.draw.line(self.display, BLACK, (mouth_x, mouth_y - 5), (mouth_x, mouth_y - 10), 2)
+        else:
+            pygame.draw.line(self.display, BLACK, (mouth_x, mouth_y + 5), (mouth_x, mouth_y + 10), 2)
+
+    def update_ui(self):
+
+        self.display.fill(BLACK)
+        self.draw_cartoon_snake()
 
         pygame.draw.rect(
             self.display,
@@ -266,14 +357,40 @@ class SnakeGame:
                 self.food[1],
                 BLOCK_SIZE,
                 BLOCK_SIZE
-            )
+            ),
+            border_radius=6
         )
 
         text = font.render("Score: "+str(self.score),True,WHITE)
-
         self.display.blit(text,[0,0])
 
         pygame.display.flip()
+
+    def show_game_over(self):
+
+        overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        self.display.blit(overlay, (0, 0))
+
+        label = font_big.render("Game Over", True, WHITE)
+        score_text = font.render(f"Score: {self.score}", True, WHITE)
+        restart_text = font.render("Press any key to exit", True, WHITE)
+
+        self.display.blit(label, (200, 150))
+        self.display.blit(score_text, (250, 220))
+        self.display.blit(restart_text, (175, 270))
+        pygame.display.flip()
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN:
+                    pygame.quit()
+                    return
+
+            self.clock.tick(10)
 
 # -----------------------------------
 # Main
@@ -284,6 +401,7 @@ if __name__ == "__main__":
     from agent import Agent
 
     game = SnakeGame()
+    game.choose_speed()
     agent = Agent()
 
     while True:
@@ -299,8 +417,10 @@ if __name__ == "__main__":
         if game_over:
 
             print("Final Score:",score)
+            game.show_game_over()
             agent.n_games += 1
             agent.train_long_memory()
             game.reset()
+            game.choose_speed()
 
     pygame.quit()
