@@ -54,9 +54,9 @@ class SnakeGame:
     def choose_speed(self):
 
         speed_options = {
-            'slow': (8, pygame.K_s, (200, 180, 260, 50)),
-            'medium': (12, pygame.K_m, (200, 245, 260, 50)),
-            'high': (18, pygame.K_h, (200, 310, 260, 50))
+            'slow': (6, pygame.K_s, (200, 180, 260, 50)),
+            'medium': (10, pygame.K_m, (200, 245, 260, 50)),
+            'high': (15, pygame.K_h, (200, 310, 260, 50))
         }
 
         while True:
@@ -68,7 +68,6 @@ class SnakeGame:
             for label, (value, key, rect) in speed_options.items():
                 x, y, w, h = rect
                 mouse_pos = pygame.mouse.get_pos()
-                mouse_click = pygame.mouse.get_pressed()
 
                 hover = x <= mouse_pos[0] <= x + w and y <= mouse_pos[1] <= y + h
                 button_color = LIGHT_GREEN if hover else DARK_GREEN
@@ -411,28 +410,16 @@ class SnakeGame:
 
 if __name__ == "__main__":
 
-    from agent import Agent
-
     game = SnakeGame()
     game.choose_speed()
-    agent = Agent()
 
     while True:
 
-        state = game.get_state()
-        final_move = agent.get_action(state)
-        reward, game_over, score = game.play_step(final_move)
-
-        next_state = game.get_state()
-        agent.remember(state, final_move, reward, next_state, game_over)
-        agent.train_short_memory(state, final_move, reward, next_state, game_over)
+        _, game_over, score = game.play_step()
 
         if game_over:
-
-            print("Final Score:",score)
+            print("Final Score:", score)
             game.show_game_over()
-            agent.n_games += 1
-            agent.train_long_memory()
             game.reset()
             game.choose_speed()
 
