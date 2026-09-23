@@ -264,7 +264,7 @@ class SnakeGame:
             reward = -10
 
         self.update_ui()
-        self.clock.tick(SPEED)
+        self.clock.tick(self.speed)
 
         return reward, game_over, self.score
 
@@ -317,7 +317,6 @@ class SnakeGame:
             border_radius=10
         )
 
-        eye_offset = 5
         eye_radius = 2
 
         if self.direction == Direction.RIGHT:
