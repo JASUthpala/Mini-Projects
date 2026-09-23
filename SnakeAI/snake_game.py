@@ -378,31 +378,49 @@ class SnakeGame:
 
         pygame.display.flip()
 
-    def show_game_over(self):
-
-        overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-        overlay.fill((0, 0, 0, 180))
-        self.display.blit(overlay, (0, 0))
-
-        label = font_big.render("Game Over", True, WHITE)
-        score_text = font.render(f"Score: {self.score}", True, WHITE)
-        restart_text = font.render("Press any key to exit", True, WHITE)
-
-        self.display.blit(label, (200, 150))
-        self.display.blit(score_text, (250, 220))
-        self.display.blit(restart_text, (175, 270))
-        pygame.display.flip()
+    def show_start_screen(self):
 
         while True:
+            self.display.fill(BLACK)
+
+            title = font_big.render("Snake", True, WHITE)
+            subtitle = font.render("Press Enter to Play", True, WHITE)
+
+            self.display.blit(title, (245, 120))
+            self.display.blit(subtitle, (190, 220))
+            pygame.display.flip()
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
-                if event.type == pygame.KEYDOWN:
-                    pygame.quit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     return
 
-            self.clock.tick(10)
+            self.clock.tick(30)
+
+    def show_game_over(self):
+
+        while True:
+            self.display.fill(BLACK)
+
+            label = font_big.render("Game Over", True, WHITE)
+            score_text = font.render(f"Score: {self.score}", True, WHITE)
+            retry_text = font.render("Press Enter to Retry", True, WHITE)
+
+            self.display.blit(label, (180, 120))
+            self.display.blit(score_text, (250, 200))
+            self.display.blit(retry_text, (170, 260))
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                    return True
+
+            self.clock.tick(30)
 
 # -----------------------------------
 # Main
@@ -411,6 +429,7 @@ class SnakeGame:
 if __name__ == "__main__":
 
     game = SnakeGame()
+    game.show_start_screen()
     game.choose_speed()
 
     while True:
@@ -419,8 +438,10 @@ if __name__ == "__main__":
 
         if game_over:
             print("Final Score:", score)
-            game.show_game_over()
-            game.reset()
-            game.choose_speed()
+            if game.show_game_over():
+                game.reset()
+                game.choose_speed()
+            else:
+                break
 
     pygame.quit()
