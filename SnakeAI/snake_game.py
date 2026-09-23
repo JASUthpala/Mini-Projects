@@ -54,24 +54,29 @@ class SnakeGame:
     def choose_speed(self):
 
         speed_options = {
-            pygame.K_s: 8,
-            pygame.K_m: 12,
-            pygame.K_h: 18
+            'slow': (8, pygame.K_s, (200, 180, 260, 50)),
+            'medium': (12, pygame.K_m, (200, 245, 260, 50)),
+            'high': (18, pygame.K_h, (200, 310, 260, 50))
         }
 
         while True:
             self.display.fill(BLACK)
 
             title = font_big.render("Select Snake Speed", True, WHITE)
-            self.display.blit(title, (150, 100))
+            self.display.blit(title, (120, 80))
 
-            slow = font.render("S - Slow", True, WHITE)
-            medium = font.render("M - Medium", True, WHITE)
-            high = font.render("H - High", True, WHITE)
+            for label, (value, key, rect) in speed_options.items():
+                x, y, w, h = rect
+                mouse_pos = pygame.mouse.get_pos()
+                mouse_click = pygame.mouse.get_pressed()
 
-            self.display.blit(slow, (250, 180))
-            self.display.blit(medium, (235, 220))
-            self.display.blit(high, (245, 260))
+                hover = x <= mouse_pos[0] <= x + w and y <= mouse_pos[1] <= y + h
+                button_color = LIGHT_GREEN if hover else DARK_GREEN
+                pygame.draw.rect(self.display, button_color, pygame.Rect(x, y, w, h), border_radius=12)
+
+                text = font.render(f"{chr(key).upper()} - {label.title()}", True, BLACK)
+                text_rect = text.get_rect(center=(x + w / 2, y + h / 2))
+                self.display.blit(text, text_rect)
 
             pygame.display.flip()
 
@@ -81,11 +86,20 @@ class SnakeGame:
                     quit()
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key in speed_options:
-                        self.speed = speed_options[event.key]
-                        return
+                    for label, (value, key, rect) in speed_options.items():
+                        if event.key == key:
+                            self.speed = value
+                            return
 
-            self.clock.tick(10)
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    mouse_x, mouse_y = event.pos
+                    for label, (value, key, rect) in speed_options.items():
+                        x, y, w, h = rect
+                        if x <= mouse_x <= x + w and y <= mouse_y <= y + h:
+                            self.speed = value
+                            return
+
+            self.clock.tick(30)
 
     def reset(self):
 
