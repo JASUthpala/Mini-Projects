@@ -20,9 +20,15 @@ RED = (200,0,0)
 GREEN = (0,255,0)
 DARK_GREEN = (0,180,0)
 LIGHT_GREEN = (120,255,120)
+NAVY = (10, 20, 40)
+BLUE = (45, 110, 255)
+TEAL = (30, 180, 170)
+BUTTON_HOVER = (90, 200, 180)
+BUTTON_COLOR = (50, 160, 140)
 
 font = pygame.font.SysFont("arial",25)
 font_big = pygame.font.SysFont("arial",40, bold=True)
+font_title = pygame.font.SysFont("arial",60, bold=True)
 
 # -----------------------------------
 # Directions
@@ -378,16 +384,36 @@ class SnakeGame:
 
         pygame.display.flip()
 
+    def draw_button(self, rect, text, text_color=WHITE, hover_color=BUTTON_HOVER, base_color=BUTTON_COLOR):
+
+        x, y, w, h = rect
+        mouse_pos = pygame.mouse.get_pos()
+        hovered = x <= mouse_pos[0] <= x + w and y <= mouse_pos[1] <= y + h
+        color = hover_color if hovered else base_color
+
+        pygame.draw.rect(self.display, color, pygame.Rect(x, y, w, h), border_radius=14)
+        pygame.draw.rect(self.display, WHITE, pygame.Rect(x, y, w, h), 2, border_radius=14)
+
+        label = font.render(text, True, text_color)
+        label_rect = label.get_rect(center=(x + w/2, y + h/2))
+        self.display.blit(label, label_rect)
+
+        return hovered
+
     def show_start_screen(self):
 
         while True:
-            self.display.fill(BLACK)
+            self.display.fill(NAVY)
 
-            title = font_big.render("Snake", True, WHITE)
-            subtitle = font.render("Press Enter to Play", True, WHITE)
+            title = font_title.render("Snake", True, WHITE)
+            title_rect = title.get_rect(center=(WIDTH/2, 120))
+            self.display.blit(title, title_rect)
 
-            self.display.blit(title, (245, 120))
-            self.display.blit(subtitle, (190, 220))
+            play_button = (200, 230, 240, 60)
+            hovered = self.draw_button(play_button, "Play")
+
+            tip = font.render("Press Enter or click Play", True, WHITE)
+            self.display.blit(tip, (170, 330))
             pygame.display.flip()
 
             for event in pygame.event.get():
@@ -396,21 +422,26 @@ class SnakeGame:
                     quit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     return
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    mouse_x, mouse_y = event.pos
+                    x, y, w, h = play_button
+                    if x <= mouse_x <= x + w and y <= mouse_y <= y + h:
+                        return
 
             self.clock.tick(30)
 
     def show_game_over(self):
 
         while True:
-            self.display.fill(BLACK)
+            self.display.fill(NAVY)
 
             label = font_big.render("Game Over", True, WHITE)
             score_text = font.render(f"Score: {self.score}", True, WHITE)
-            retry_text = font.render("Press Enter to Retry", True, WHITE)
+            retry_button = (180, 260, 280, 60)
+            hovered = self.draw_button(retry_button, "Retry")
 
-            self.display.blit(label, (180, 120))
-            self.display.blit(score_text, (250, 200))
-            self.display.blit(retry_text, (170, 260))
+            self.display.blit(label, (185, 100))
+            self.display.blit(score_text, (250, 190))
             pygame.display.flip()
 
             for event in pygame.event.get():
@@ -419,6 +450,11 @@ class SnakeGame:
                     quit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     return True
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    mouse_x, mouse_y = event.pos
+                    x, y, w, h = retry_button
+                    if x <= mouse_x <= x + w and y <= mouse_y <= y + h:
+                        return True
 
             self.clock.tick(30)
 
