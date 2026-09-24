@@ -154,3 +154,77 @@ Frontend displays summary and questions
 ![Lecture AI dashboard 2](Lecture-AI/images/app2.png)
 
 ---
+
+## 2. SnakeAI
+
+### Project status
+
+![Status](https://img.shields.io/badge/status-working%20locally-success)
+
+### Purpose
+
+SnakeAI is an AI-powered Snake game built with Python. The project combines a classic arcade game with a reinforcement learning agent that learns to avoid walls, eat food, and survive longer over time. It is a great example of applying machine learning concepts to a simple game environment.
+
+This project is useful for learning:
+
+- reinforcement learning basics
+- game AI behavior and state representation
+- PyTorch-based model training
+- Python game development with Pygame
+
+### Features
+
+- 🐍 Classic Snake gameplay with a graphical interface
+- 🤖 AI agent trained to improve gameplay over time
+- 🧠 Neural network model and Q-learning-inspired training loop
+- ⚡ Adjustable game speed settings
+- 📈 Reward-based agent learning from gameplay states
+- 🎮 Interactive game experience with multiple speed options
+
+### Technologies used
+
+- Python
+- Pygame for the game interface
+- PyTorch for the neural network and training logic
+- NumPy for numerical calculations
+- Matplotlib for training visualization support
+
+### How it works
+
+1. The game creates a Snake board and spawns food at random positions.
+2. The AI agent observes the current board state, including danger and food direction.
+3. The agent chooses one of three actions: move left, straight, or right.
+4. The game rewards the agent for survival and food collection.
+5. The model updates itself based on the reward signals and learns better decisions over time.
+
+### Quick Start
+
+```bash
+cd "d:\Mini-Projects\SnakeAI"
+python -m pip install -r requirements.txt
+python snake_game.py
+```
+
+### Project files
+
+- `snake_game.py` — game logic and rendering
+- `agent.py` — AI agent decision logic
+- `model.py` — neural network model and training logic
+- `requirements.txt` — project dependencies
+- `Video/` — demo videos of the game in action
+
+### Demo videos
+
+#### Version 1
+
+<video width="100%" controls>
+  <source src="SnakeAI/Video/verision_1.mp4" type="video/mp4">
+</video>
+
+#### Version 2
+
+<video width="100%" controls>
+  <source src="SnakeAI/Video/version_2.mp4" type="video/mp4">
+</video>
+
+---
