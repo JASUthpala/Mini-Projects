@@ -215,16 +215,23 @@ python snake_game.py
 
 ### Demo videos
 
+> If your Markdown viewer does not render embedded media, use the direct links below to open the videos in a browser.
+>
+> - [Version 1 video](SnakeAI/Video/verision_1.mp4)
+> - [Version 2 video](SnakeAI/Video/version_2.mp4)
+
 #### Version 1
 
-<video width="100%" controls>
-  <source src="SnakeAI/Video/verision_1.mp4" type="video/mp4">
+<video width="100%" controls playsinline preload="metadata">
+  <source src="SnakeAI/Video/verision_1.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
 </video>
 
 #### Version 2
 
-<video width="100%" controls>
-  <source src="SnakeAI/Video/version_2.mp4" type="video/mp4">
+<video width="100%" controls playsinline preload="metadata">
+  <source src="SnakeAI/Video/version_2.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
 </video>
 
 ---
