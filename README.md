@@ -212,6 +212,15 @@ python snake_game.py
 - `model.py` - neural network model and training logic
 - `requirements.txt` - project dependencies
 - `Video/` - demo videos of the game in action
+- `images/` - gameplay screenshots
+
+### Game screenshots
+
+![SnakeAI gameplay](SnakeAI/images/During%20Game.png)
+
+![SnakeAI speed selection](SnakeAI/images/Select%20Speed.png)
+
+![SnakeAI game over](SnakeAI/images/Game%20over.png)
 
 ### Demo videos
 
