@@ -207,11 +207,11 @@ python snake_game.py
 
 ### Project files
 
-- `snake_game.py` — game logic and rendering
-- `agent.py` — AI agent decision logic
-- `model.py` — neural network model and training logic
-- `requirements.txt` — project dependencies
-- `Video/` — demo videos of the game in action
+- `snake_game.py` - game logic and rendering
+- `agent.py` - AI agent decision logic
+- `model.py` - neural network model and training logic
+- `requirements.txt` - project dependencies
+- `Video/` - demo videos of the game in action
 
 ### Demo videos
 
